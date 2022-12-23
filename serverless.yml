@@ -2,7 +2,9 @@ service: serverless
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs8.10
+    # runtime: nodejs18.x
+
   region: us-east-2
   # stage lets you set dev / production / etc
   stage: dev
@@ -22,6 +24,8 @@ functions:
       - http: ANY /
     # PROXY for including parameters
       - http: 'ANY /{param+}' 
+
+
 # a lambda function that brings up all of our todo list items
 #   todos:
 #     handler: src/api/todos.handler
