@@ -18,10 +18,33 @@ functions:
     # subscribing to an HTTP event that will do a get request to /api
     events: 
       - http: GET /api
-#
+# a lambda function that brings up all of our todo list items
   todos:
     handler: src/api/todos.handler
+  # listens for HTTP GET on /dev/todolist
+  # Returns the list of tasks
+    events:
+      - http:
+          path: /todolist
+          method: GET
+          cors: true
 #   
   todo:
+  # Lambda function that shows details on one single item
     handler: src/api/todo.handler
+    # listens for HTTP GET on /dev/todo/param?
+    # needs to receive params somewhere?
+
+    events:
+      - http: GET /todo/{id} #shorthand allowing for the id variable to be passed in as a parameter
+
+    # the longer way of doing things
+
+    # events:
+    #   - http: 
+    #       path: /todo/{id}
+    #       method: GET
+    #       request:
+    #         parameters:
+    #           id: true
     
