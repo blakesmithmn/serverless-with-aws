@@ -2,49 +2,53 @@ service: serverless
 
 provider:
   name: aws
-  runtime: nodejs8.10
-  # profile: femasters
-  region: us-west-1
+  runtime: nodejs18.x
+  region: us-east-2
+  # stage lets you set dev / production / etc
   stage: dev
 
 plugins:
   - serverless-offline
 
 functions:  
+
 #
   api:
     handler: src/api/api.handler
     # picks the kind of events the lambda can subscribe to 
     # subscribing to an HTTP event that will do a get request to /api
     events: 
-      - http: GET /api
+    # any request to / path
+      - http: ANY /
+    # PROXY for including parameters
+      - http: 'ANY /{param+}' 
 # a lambda function that brings up all of our todo list items
-  todos:
-    handler: src/api/todos.handler
-  # listens for HTTP GET on /dev/todolist
-  # Returns the list of tasks
-    events:
-      - http:
-          path: /todolist
-          method: GET
-          cors: true
-#   
-  todo:
-  # Lambda function that shows details on one single item
-    handler: src/api/todo.handler
-    # listens for HTTP GET on /dev/todo/param?
-    # needs to receive params somewhere?
+#   todos:
+#     handler: src/api/todos.handler
+#   # listens for HTTP GET on /dev/todolist
+#   # Returns the list of tasks
+#     events:
+#       - http:
+#           path: /todolist
+#           method: GET
+#           cors: true
+# #   
+#   todo:
+#   # Lambda function that shows details on one single item
+#     handler: src/api/todo.handler
+#     # listens for HTTP GET on /dev/todo/param?
+#     # needs to receive params somewhere?
 
-    events:
-      - http: GET /todo/{id} #shorthand allowing for the id variable to be passed in as a parameter
+#     events:
+#       - http: GET /todo/{id} #shorthand allowing for the id variable to be passed in as a parameter
 
-    # the longer way of doing things
+#     # the longer way of doing things
 
-    # events:
-    #   - http: 
-    #       path: /todo/{id}
-    #       method: GET
-    #       request:
-    #         parameters:
-    #           id: true
+#     # events:
+#     #   - http: 
+#     #       path: /todo/{id}
+#     #       method: GET
+#     #       request:
+#     #         parameters:
+#     #           id: true
     
